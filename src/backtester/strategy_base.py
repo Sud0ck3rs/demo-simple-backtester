@@ -6,16 +6,20 @@ import pandas as pd
 
 class Strategy(ABC):
     """
-    Interface de base pour une stratégie.
+    Base interface for a trading strategy.
+
+    A strategy receives a price DataFrame and returns signals:
+      1  -> long
+      0  -> flat
+     -1  -> short (not used in v1)
     """
 
     @abstractmethod
     def generate_signals(self, data: pd.DataFrame) -> pd.Series:
         """
-        Retourne une Series alignée au DataFrame data,
-        avec :
-          1  -> signal long
-          0  -> neutral (pas de position)
-         -1  -> signal short (pas géré en V1)
+        Generate a signal Series aligned with `data` index.
+
+        Returns:
+            pd.Series: values in {1, 0, -1}
         """
         ...

@@ -6,19 +6,20 @@ import pandas as pd
 
 def load_ohlcv_csv(path: str | Path) -> pd.DataFrame:
     """
-    Charge un CSV OHLCV.
-    Gère notamment un format type TradingView avec :
-      - time (unix seconds)
-      - open, high, low, close
-      - Volume (V majuscule)
+    Load an OHLCV CSV file.
 
-    Retourne un DataFrame avec index datetime et colonnes :
+    Supports formats like TradingView exports with:
+      - time (unix seconds) OR timestamp (datetime string)
+      - open, high, low, close
+      - volume or Volume
+
+    Returns a DataFrame indexed by datetime with columns:
       ['open', 'high', 'low', 'close', 'volume']
     """
     path = Path(path)
     df = pd.read_csv(path)
 
-    # 1) Gestion du temps : 'timestamp' ou 'time'
+    # 1) Time column: 'timestamp' or 'time's
     if "timestamp" in df.columns:
         time_col = "timestamp"
     elif "time" in df.columns:
@@ -26,12 +27,12 @@ def load_ohlcv_csv(path: str | Path) -> pd.DataFrame:
     else:
         raise ValueError("CSV must contain a 'timestamp' or 'time' column")
 
-    # Convertit en datetime (on suppose des secondes)
+    # Convert datatime
     df[time_col] = pd.to_datetime(df[time_col], unit="s")
     df = df.set_index(time_col).sort_index()
     df.index.name = "timestamp"
 
-    # 2) Normalisation des colonnes de volume
+    # 2) Normalize volume column
     if "volume" in df.columns:
         vol_col = "volume"
     elif "Volume" in df.columns:
@@ -39,7 +40,7 @@ def load_ohlcv_csv(path: str | Path) -> pd.DataFrame:
     else:
         raise ValueError("CSV must contain a 'volume' or 'Volume' column")
 
-    # 3) Ne garder que les colonnes utiles
+    # 3) Keep only OHLCV columns
     keep_cols = ["open", "high", "low", "close", vol_col]
     missing = [c for c in ["open", "high", "low", "close"] if c not in df.columns]
     if missing:

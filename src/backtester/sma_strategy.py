@@ -7,9 +7,11 @@ from .strategy_base import Strategy
 
 class SmaCrossStrategy(Strategy):
     """
-    Stratégie simple :
-    - SMA courte > SMA longue -> long
-    - Sinon -> flat
+    Simple moving average crossover strategy.
+
+    Rules:
+      - If short SMA > long SMA  => go long
+      - Else                     => stay flat
     """
 
     def __init__(self, short_window: int = 20, long_window: int = 50):
