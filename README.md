@@ -55,8 +55,8 @@ simple-backtester/
 ## Installation
 
 ```bash
-git clone https://github.com/<your-username>/<your-repo-name>.git
-cd <your-repo-name>
+git clone https://github.com/Sud0ck3rs/demo-simple-backtester.git
+cd demo-simple-backtester
 
 # Create and activate a virtual env (recommended)
 python -m venv .venv
