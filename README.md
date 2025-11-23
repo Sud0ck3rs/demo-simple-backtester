@@ -157,3 +157,8 @@ class MyStrategy(Strategy):
 ```
 
 Then import and use it in `main.py`.
+
+---
+
+<img width="996" height="614" alt="image" src="https://github.com/user-attachments/assets/c09d1d22-4d06-4bfa-8fcc-899d57a7539b" />
+
